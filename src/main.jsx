@@ -3,19 +3,19 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Detail from "./Pages/Detail";
-import Movie from "./Pages/Movie";
+import MoviePage from "./Pages/Movie";
 
 const router = createBrowserRouter([
   // Array untuk path
   {
     path: "/",
-    element: <Movie />,
+    element: <MoviePage />,
   },
   {
     path: "/movie",
     element: (
       <div>
-        <Movie />
+        <MoviePage />
       </div>
     ),
   },
