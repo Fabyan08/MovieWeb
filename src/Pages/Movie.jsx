@@ -5,6 +5,7 @@ import Category from "../Components/Category/Index";
 import Nav from "../Components/Nav/Index";
 import Pagination from "../Components/Pagination/Index";
 import Footer from "../Components/Footer/Index";
+import { Link } from "react-router-dom";
 const MoviePage = () => {
   const [movie, setMovie] = useState({ results: [] });
   const [genres, setGenres] = useState({});
@@ -58,13 +59,15 @@ const MoviePage = () => {
             movie.results.map((castMember, index) => (
               <li key={index}>
                 <div>
-                  <img
-                    src={
-                      "https://image.tmdb.org/t/p/w500/" +
-                      castMember.poster_path
-                    }
-                    alt="Movie Poster"
-                  />
+                  <Link to="/detail">
+                    <img
+                      src={
+                        "https://image.tmdb.org/t/p/w500/" +
+                        castMember.poster_path
+                      }
+                      alt="Movie Poster"
+                    />
+                  </Link>
                 </div>
                 <p>{castMember.title}</p>
                 <p>{mapGenreNames(castMember.genre_ids).join(", ")}</p>
@@ -75,7 +78,7 @@ const MoviePage = () => {
 
       <Pagination />
       <Footer />
-      <div className="mt-96"></div>
+      {/* <div className="mt-96"></div> */}
     </>
   );
 };
