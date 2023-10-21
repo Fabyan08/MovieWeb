@@ -6,10 +6,15 @@ import Nav from "../Components/Nav/Index";
 import Pagination from "../Components/Pagination/Index";
 import Footer from "../Components/Footer/Index";
 import { Link } from "react-router-dom";
+
 const MoviePage = () => {
   const [movie, setMovie] = useState({ results: [] });
   const [genres, setGenres] = useState({});
-
+  const [currentPage, setCurrentPage] = useState(70);
+  const itemsPerPage = 10; // Number of items to display per page
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
   useEffect(() => {
     // Fetch the genre data
     axios
@@ -30,7 +35,7 @@ const MoviePage = () => {
 
     axios
       .get(
-        "https://api.themoviedb.org/3/trending/all/week?api_key=f8d0dccf140f8bb785d7d9b067b28ce3"
+        `https://api.themoviedb.org/3/discover/movie?api_key=f8d0dccf140f8bb785d7d9b067b28ce3&page=${currentPage}`
       )
       .then((response) => {
         setMovie(response.data);
@@ -59,7 +64,7 @@ const MoviePage = () => {
             movie.results.map((castMember, index) => (
               <li key={index}>
                 <div>
-                  <Link to="/detail">
+                  <Link to={`/detail/${castMember.id}`}>
                     <img
                       src={
                         "https://image.tmdb.org/t/p/w500/" +
