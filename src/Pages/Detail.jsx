@@ -106,16 +106,16 @@ const Detail = () => {
             Review
           </a>
         </div>
-        <div className="flex  pl-3 md:pl-16 items-center justify-center">
-          <h1 className="font-bold text-4xl shadow-sm">Synopsis</h1>
+        <div className="flex  pl-3 md:pl-16 items-center justify-between">
+          <h1 className="font-bold text-4xl w-60 shadow-sm">Synopsis</h1>
           <hr className="border border-slate-500 w-full ml-12 mr-16 my-4" />
         </div>
         <div className=" pl-3 md:pl-16 text-2xl w-fit    mt-2">
           <h1>{movie.overview}</h1>
         </div>
-        <div className="flex  pl-3 md:pl-16 items-center justify-center">
-          <h1 className="font-bold text-4xl shadow-sm">Movie Info</h1>
-          <hr className="border border-slate-500 w-[1185px] ml-5 mr-16 my-4" />
+        <div className="flex  pl-3 md:pl-16 items-center justify-between">
+          <h1 className="font-bold text-4xl w-72 shadow-sm">Movie Info</h1>
+          <hr className="border border-slate-500 w-full ml-5 mr-16 my-4" />
         </div>
         <div className=" pl-3 md:pl-16 text-2xl w-[1400px] mt-10">
           <ul>
