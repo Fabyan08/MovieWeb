@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import axios from "axios"; // Import axios for API requests
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Banner from "../Components/Banner/Index";
 import Category from "../Components/Category/Index";
 import Nav from "../Components/Nav/Index";
@@ -11,24 +11,20 @@ const MoviePage = () => {
   const [movie, setMovie] = useState({ results: [] });
   const [genres, setGenres] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState(""); // Add this line
+  const [searchQuery, setSearchQuery] = useState(""); 
   const [selectedGenreId, setSelectedGenreId] = useState(null);
-  const handleGenreSelect = (genreId) => {
-    setSelectedGenreId(genreId);
-  };
 
-  // Define the itemsPerPage and totalPages based on your data
-  const itemsPerPage = 10; // Number of items to display per page
-  const totalPages = Math.ceil(movie.total_results / itemsPerPage);
+  const itemsPerPage = 10;
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
 
   const searchMovies = () => {
+    const genreParam = selectedGenreId ? `&with_genres=${selectedGenreId}` : "";
     axios
       .get(
-        `https://api.themoviedb.org/3/search/movie?api_key=f8d0dccf140f8bb785d7d9b067b28ce3&query=${searchQuery}`
+        `https://api.themoviedb.org/3/search/movie?api_key=f8d0dccf140f8bb785d7d9b067b28ce3&query=${searchQuery}${genreParam}`
       )
       .then((response) => {
         setMovie(response.data);
@@ -38,12 +34,15 @@ const MoviePage = () => {
       });
   };
 
+  const handleGenreSelect = (genreId) => {
+    setSelectedGenreId(genreId);
+    setCurrentPage(1); // Reset to the first page when changing genres
+  };
+
   useEffect(() => {
-    // Fetch the genre data and movie data based on the currentPage
+    // Fetch genre data
     axios
-      .get(
-        "https://api.themoviedb.org/3/genre/movie/list?api_key=f8d0dccf140f8bb785d7d9b067b28ce3"
-      )
+      .get("https://api.themoviedb.org/3/genre/movie/list?api_key=f8d0dccf140f8bb785d7d9b067b28ce3")
       .then((response) => {
         const genreData = response.data.genres;
         const genreObject = {};
@@ -56,9 +55,11 @@ const MoviePage = () => {
         console.error("Error fetching genre data: ", error);
       });
 
+    // Fetch movie data based on current page and selected genre
+    const genreParam = selectedGenreId ? `&with_genres=${selectedGenreId}` : "";
     axios
       .get(
-        `https://api.themoviedb.org/3/discover/movie?api_key=f8d0dccf140f8bb785d7d9b067b28ce3&page=${currentPage}&with_genres=${selectedGenreId}`
+        `https://api.themoviedb.org/3/discover/movie?api_key=f8d0dccf140f8bb785d7d9b067b28ce3&page=${currentPage}${genreParam}`
       )
       .then((response) => {
         setMovie(response.data);
@@ -66,34 +67,7 @@ const MoviePage = () => {
       .catch((error) => {
         console.error("Error fetching movie data: ", error);
       });
-
-    axios
-      .get(
-        "https://api.themoviedb.org/3/genre/movie/list?api_key=f8d0dccf140f8bb785d7d9b067b28ce3"
-      )
-      .then((response) => {
-        const genreData = response.data.genres;
-        const genreObject = {};
-        genreData.forEach((genre) => {
-          genreObject[genre.id] = genre.name;
-        });
-        setGenres(genreObject);
-      })
-      .catch((error) => {
-        console.error("Error fetching genre data: ", error);
-      });
-
-    axios
-      .get(
-        `https://api.themoviedb.org/3/discover/movie?api_key=f8d0dccf140f8bb785d7d9b067b28ce3&page=${currentPage}`
-      )
-      .then((response) => {
-        setMovie(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching movie data: ", error);
-      });
-  }, [currentPage]);
+  }, [currentPage, selectedGenreId]);
 
   const mapGenreNames = (genreIds) => {
     return genreIds.map((genreId) => {
@@ -104,10 +78,9 @@ const MoviePage = () => {
 
   return (
     <>
-      <Nav onSearch={setSearchQuery} onSearchSubmit={searchMovies} />{" "}
-      {/* Pass search functions to Nav */}
+      <Nav onSearch={setSearchQuery} onSearchSubmit={searchMovies} />
       <Banner />
-      <Category genres={genres} />
+      <Category genres={genres} onGenreSelect={handleGenreSelect} selectedGenreId={selectedGenreId} />
       <div className="mt-10">
         <ul className="grid grid-cols-2 md:grid-cols-5 gap-3 px-10">
           {movie.results &&
@@ -135,9 +108,8 @@ const MoviePage = () => {
         currentPage={currentPage}
         totalPages={movie.total_pages}
         onPageChange={handlePageChange}
-      />{" "}
-      {/* Include the Pagination component */} <Footer />
-      {/* <div className="mt-96"></div> */}
+      />
+      <Footer />
     </>
   );
 };

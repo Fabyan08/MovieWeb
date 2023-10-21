@@ -19,7 +19,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 
   return (
     <div>
-      <ul className="flex items-center justify-center gap-12 text-4xl">
+      <ul className="flex items-center justify-center gap-3 md:gap-12 text-2xl  md:text-4xl">
         <li>
           <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
             <AiOutlineLeft />

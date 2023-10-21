@@ -1,16 +1,17 @@
-import PropTypes from "prop-types";
-
 import { useState } from "react";
 
 const Nav = ({ onSearch, onSearchSubmit }) => {
   const [searchText, setSearchText] = useState("");
-  Nav.propTypes = {
-    onSearch: PropTypes.func.isRequired,
-    onSearchSubmit: PropTypes.func.isRequired,
-  };
+
   const handleSearch = () => {
     onSearch(searchText);
     onSearchSubmit();
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSearch(); // Trigger the search when "Enter" is pressed
+    }
   };
 
   return (
@@ -25,8 +26,8 @@ const Nav = ({ onSearch, onSearchSubmit }) => {
               placeholder="Search Movie"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
+              onKeyPress={handleKeyPress} // Listen for "Enter" key press
             />
-            <button onClick={handleSearch}>Search</button>
           </div>
         </nav>
       </header>

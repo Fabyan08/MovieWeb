@@ -1,22 +1,34 @@
 import React from "react";
 
-const Category = ({ genres }) => {
+const Category = ({ genres, onGenreSelect, selectedGenreId }) => {
   const genreNames = Object.values(genres);
 
   return (
     <div className="pl-2 md:pl-16">
-      <h1 className="font-bold text-2xl text-slate-400 mt-4">Browse Category</h1>
+      <h1 className="font-bold text-2xl text-slate-400 mt-4">
+        Browse Category
+      </h1>
       <div className="mt-4">
         <ul className="flex flex-wrap gap-4">
-          <li className="text-slate-400 text-xl font-semibold hover:text-white hover:bg-secondary p-2 rounded-full">
-            <a href="">All</a>
+          <li
+            className={`text-slate-400 text-xl font-semibold hover:text-white hover:bg-secondary p-2 rounded-full ${
+              selectedGenreId === null ? "active:bg-secondary" : ""
+            }`}
+          >
+            <a href="#" onClick={() => onGenreSelect(null)}>
+              All
+            </a>
           </li>
-          {genreNames.map((genreName, index) => (
+          {Object.entries(genres).map(([genreId, genreName]) => (
             <li
-              key={index}
-              className="text-slate-400 text-xl font-semibold hover:text-white hover:bg-secondary p-2 rounded-full"
+              key={genreId}
+              className={`text-slate-400 text-xl font-semibold hover:text-white hover:bg-secondary p-2 rounded-full ${
+                selectedGenreId === genreId ? "active:bg-secondary" : ""
+              }`}
             >
-              <a href="">{genreName}</a>
+              <a href="#" onClick={() => onGenreSelect(genreId)}>
+                {genreName}
+              </a>
             </li>
           ))}
         </ul>
