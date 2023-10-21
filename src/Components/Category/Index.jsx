@@ -1,8 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 
 const Category = ({ genres, onGenreSelect, selectedGenreId }) => {
-  const genreNames = Object.values(genres);
-
   return (
     <div className="pl-2 md:pl-16">
       <h1 className="font-bold text-2xl text-slate-400 mt-4">
@@ -12,7 +10,7 @@ const Category = ({ genres, onGenreSelect, selectedGenreId }) => {
         <ul className="flex flex-wrap gap-4">
           <li
             className={`text-slate-400 text-xl font-semibold hover:text-white hover:bg-secondary p-2 rounded-full ${
-              selectedGenreId === null ? "active:bg-secondary" : ""
+              selectedGenreId === null ? "bg-secondary text-white" : ""
             }`}
           >
             <a href="#" onClick={() => onGenreSelect(null)}>
@@ -23,7 +21,7 @@ const Category = ({ genres, onGenreSelect, selectedGenreId }) => {
             <li
               key={genreId}
               className={`text-slate-400 text-xl font-semibold hover:text-white hover:bg-secondary p-2 rounded-full ${
-                selectedGenreId === genreId ? "active:bg-secondary" : ""
+                selectedGenreId === genreId ? "bg-secondary text-white" : ""
               }`}
             >
               <a href="#" onClick={() => onGenreSelect(genreId)}>

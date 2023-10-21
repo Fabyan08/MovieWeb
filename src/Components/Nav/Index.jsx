@@ -18,7 +18,9 @@ const Nav = ({ onSearch, onSearchSubmit }) => {
     <>
       <header className="px-5 md:px-10 py-2 mx-auto shadow-lg">
         <nav className="flex items-center">
-          <img src="/assets/images/logo.png" alt="logo" className="w-20" />
+          <a href="/">
+            <img src="/assets/images/logo.png" alt="logo" className="w-20" />
+          </a>
           <div className="flex items-center mx-auto">
             <input
               type="text"
