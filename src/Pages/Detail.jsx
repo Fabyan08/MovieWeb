@@ -92,7 +92,7 @@ const Detail = () => {
       <div className="relative">
         {/* <div className="bg-black/30 md:bg-black/30 w-full absolute h-36 md:h-[560px]" /> */}
         {Object.keys(movie).length > 0 && (
-          <div className="absolute pl-4 md:pl-10 mt-10 md:mt-20 z-10">
+          <div className="absolute space-y-2 md:space-y-10 pl-4 md:pl-10 mt-10 md:mt-20 z-10">
             <h1 className="text-white text-4xl font-bold md:text-6xl">
               {movie.title}
             </h1>
@@ -134,7 +134,7 @@ const Detail = () => {
         <div className="brightness-50 ">
           <img
             src={"https://image.tmdb.org/t/p/w500/" + movie.backdrop_path}
-            className="bg-cover h-96 w-full"
+            className="bg-cover h-[600px] w-full"
             alt=""
           />
         </div>
@@ -255,7 +255,7 @@ const Detail = () => {
                   </div>
                   <div className="ml-4">
                     <p className="font-semibold text-xl">{review.author}</p>
-                    <p>"{review.content}"</p>
+                    <p>{"\"" + review.content + "\""}</p>
                   </div>
                   {/* Display the character's role */}
                 </li>

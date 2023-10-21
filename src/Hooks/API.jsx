@@ -1,5 +1,5 @@
 import axios from " axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 function Data() {
   const url =
@@ -19,9 +19,11 @@ function Data() {
       <center>
         {data.map((dataObj, index) => {
           return (
-            <div className="bg-blue-500 w-[15em]">
-              <p className="text-black">{dataObj.name}</p>
-            </div>
+            <li key={index}>
+              <div className="bg-blue-500 w-[15em]">
+                <p className="text-black">{dataObj.name}</p>
+              </div>
+            </li>
           );
         })}
       </center>

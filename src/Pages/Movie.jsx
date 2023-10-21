@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import Banner from "../Components/Banner/Index";
 import Category from "../Components/Category/Index";
 import Nav from "../Components/Nav/Index";
 import Pagination from "../Components/Pagination/Index";
 import Footer from "../Components/Footer/Index";
 import { Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
 
 const MoviePage = () => {
   const [movie, setMovie] = useState({ results: [] });
   const [genres, setGenres] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState(""); 
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedGenreId, setSelectedGenreId] = useState(null);
 
-  const itemsPerPage = 10;
+  // const itemsPerPage = 10;
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -42,7 +43,9 @@ const MoviePage = () => {
   useEffect(() => {
     // Fetch genre data
     axios
-      .get("https://api.themoviedb.org/3/genre/movie/list?api_key=f8d0dccf140f8bb785d7d9b067b28ce3")
+      .get(
+        "https://api.themoviedb.org/3/genre/movie/list?api_key=f8d0dccf140f8bb785d7d9b067b28ce3"
+      )
       .then((response) => {
         const genreData = response.data.genres;
         const genreObject = {};
@@ -79,8 +82,45 @@ const MoviePage = () => {
   return (
     <>
       <Nav onSearch={setSearchQuery} onSearchSubmit={searchMovies} />
-      <Banner />
-      <Category genres={genres} onGenreSelect={handleGenreSelect} selectedGenreId={selectedGenreId} />
+      <Swiper
+        className="w-full md:h-[700px] md:w-full"
+        spaceBetween={10}
+        slidesPerView={1}
+        onSlideChange={() => console.log("slide change")}
+        onSwiper={(swiper) => console.log(swiper)}
+        modules={[Pagination]}
+        pagination={{ clickable: true }}
+      >
+        <SwiperSlide className="w-full">
+          <img
+            src="/assets/images/banner.png"
+            alt=""
+            className="w-full h-full object-cover"
+          />
+        </SwiperSlide>
+        <SwiperSlide className="w-full">
+          <img
+            src="/assets/images/banner2.jpg"
+            alt=""
+            className="w-full h-full object-cover"
+          />
+        </SwiperSlide>
+        <SwiperSlide className="w-full">
+          <img
+            src="/assets/images/banner3.jpg"
+            alt=""
+            className="w-full h-full object-cover"
+          />
+        </SwiperSlide>
+        {/* Add more slides here */}
+      </Swiper>
+
+      {/* <Banner /> */}
+      <Category
+        genres={genres}
+        onGenreSelect={handleGenreSelect}
+        selectedGenreId={selectedGenreId}
+      />
       <div className="mt-10">
         <ul className="grid grid-cols-2 md:grid-cols-5 gap-3 px-10">
           {movie.results &&
