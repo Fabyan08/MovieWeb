@@ -7,6 +7,7 @@ import Footer from "../Components/Footer/Index";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import ScrollToTopButton from "../Components/Top/BacktoTop";
 
 const MoviePage = () => {
   const [movie, setMovie] = useState({ results: [] });
@@ -14,8 +15,6 @@ const MoviePage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGenreId, setSelectedGenreId] = useState(null);
-
-  // const itemsPerPage = 10;
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -37,7 +36,7 @@ const MoviePage = () => {
 
   const handleGenreSelect = (genreId) => {
     setSelectedGenreId(genreId);
-    setCurrentPage(1); // Reset to the first page when changing genres
+    setCurrentPage(1);
   };
 
   useEffect(() => {
@@ -58,7 +57,6 @@ const MoviePage = () => {
         console.error("Error fetching genre data: ", error);
       });
 
-    // Fetch movie data based on current page and selected genre
     const genreParam = selectedGenreId ? `&with_genres=${selectedGenreId}` : "";
     axios
       .get(
@@ -149,6 +147,7 @@ const MoviePage = () => {
         totalPages={movie.total_pages}
         onPageChange={handlePageChange}
       />
+     <ScrollToTopButton />
       <Footer />
     </>
   );

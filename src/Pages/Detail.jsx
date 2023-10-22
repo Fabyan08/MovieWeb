@@ -3,6 +3,8 @@ import Footer from "../Components/Footer/Index";
 import { getDetailMovie } from "../Services/product.service";
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
+import ScrollToTopButton from "../Components/Top/BacktoTop";
+
 const Detail = () => {
   const [selectedSubmenu, setSelectedSubmenu] = useState("overview");
 
@@ -37,8 +39,7 @@ const Detail = () => {
       }
     }
 
-    // Handle the case when the number is not a valid number
-    return "N/A"; // You can replace this with a different message or value
+    return "N/A";
   };
 
   // Get Characters
@@ -73,7 +74,7 @@ const Detail = () => {
         );
         if (response.ok) {
           const data = await response.json();
-          setReviews(data.results); // Assuming reviews are stored in the 'results' property
+          setReviews(data.results);
         } else {
           console.error("Failed to fetch review data");
         }
@@ -90,7 +91,6 @@ const Detail = () => {
       <Nav />
 
       <div className="relative">
-        {/* <div className="bg-black/30 md:bg-black/30 w-full absolute h-36 md:h-[560px]" /> */}
         {Object.keys(movie).length > 0 && (
           <div className="absolute space-y-2 md:space-y-10 pl-4 md:pl-10 mt-10 md:mt-20 z-10">
             <h1 className="text-white text-4xl font-bold md:text-6xl">
@@ -139,7 +139,6 @@ const Detail = () => {
           />
         </div>
         <div className="flex md:pl-16 text-xl mt-5">
-          {/* Step 3: Render the submenu and content based on the selected item */}
           <a
             href="#"
             className={`hover:bg-secondary rounded-full py-2 px-5 hover:font-bold hover:text-white ${
@@ -175,7 +174,6 @@ const Detail = () => {
           </a>
         </div>
         {selectedSubmenu === "overview" && (
-          /* Render Overview content here */
           <div>
             <div className="flex  pl-3 md:pl-16 items-center justify-between">
               <h1 className="font-bold text-4xl w-60 shadow-sm">Synopsis</h1>
@@ -208,7 +206,6 @@ const Detail = () => {
         )}
         {selectedSubmenu === "characters" && (
           <div className="md:px-24 ml-4 mt-10">
-            {/* <h2 className="text-2xl font-semibold">Characters</h2> */}
             <ul className="grid grid-cols-3 md:grid-cols-8 mx-auto rounded-lg">
               {characters.map((character) => (
                 <li
@@ -234,14 +231,12 @@ const Detail = () => {
           </div>
         )}
         {selectedSubmenu === "review" && (
-          /* Render Review content here */
-          <div className="md:px-24 px-4 mt-10 flex">
-            {/* <h2 className="text-2xl font-semibold">Characters</h2> */}
+          <div className="md:px-24  mt-10 px-4 md:flex">
             <ul className=" mx-auto rounded-lg space-y-4 ">
               {reviews.map((review) => (
                 <li
                   key={review.id}
-                  className="m-2 flex bg-slate-200 p-4 rounded-lg text-lg hover:bg-secondary hover:text-white hover:scale-110 duration-200"
+                  className="m-2 flex bg-slate-200  p-4 rounded-lg text-lg overflow-auto hover:bg-secondary hover:text-white hover:scale-110 duration-200"
                 >
                   <div>
                     <img
@@ -253,17 +248,17 @@ const Detail = () => {
                       className="w-full mx-auto"
                     />
                   </div>
-                  <div className="ml-4">
+                  <div className="ml-4 px-4">
                     <p className="font-semibold text-xl">{review.author}</p>
-                    <p>{"\"" + review.content + "\""}</p>
+                    <p>{'"' + review.content + '"'}</p>
                   </div>
-                  {/* Display the character's role */}
                 </li>
               ))}
             </ul>
           </div>
         )}
       </div>
+      <ScrollToTopButton />
       <Footer />
     </>
   );

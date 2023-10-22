@@ -1,7 +1,7 @@
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-  const maxPages = 6; // Set the maximum number of pages to display
+  const maxPages = 6; 
   const pageNumbers = [];
 
   // Determine the range of pages to display

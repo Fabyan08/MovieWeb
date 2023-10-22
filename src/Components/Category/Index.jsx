@@ -1,5 +1,3 @@
-// import React, { useState } from "react";
-
 const Category = ({ genres, onGenreSelect, selectedGenreId }) => {
   return (
     <div className="pl-2 md:pl-16">

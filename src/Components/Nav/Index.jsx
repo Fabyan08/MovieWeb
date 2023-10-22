@@ -10,7 +10,7 @@ const Nav = ({ onSearch, onSearchSubmit }) => {
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      handleSearch(); // Trigger the search when "Enter" is pressed
+      handleSearch();
     }
   };
 
@@ -28,7 +28,7 @@ const Nav = ({ onSearch, onSearchSubmit }) => {
               placeholder="Search Movie"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              onKeyPress={handleKeyPress} // Listen for "Enter" key press
+              onKeyPress={handleKeyPress} 
             />
           </div>
         </nav>
