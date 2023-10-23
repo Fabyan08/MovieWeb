@@ -1,4 +1,4 @@
-import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
+import { BsArrowLeftShort, BsArrowRightShort } from 'react-icons/bs';
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const maxPages = 6; 
@@ -19,10 +19,10 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 
   return (
     <div>
-      <ul className="flex items-center justify-center gap-3 md:gap-12 text-2xl  md:text-4xl">
+      <ul className="flex items-center justify-center gap-3 md:gap-36 my-10 text-2xl  md:text-4xl">
         <li>
           <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
-            <AiOutlineLeft />
+            <BsArrowLeftShort />
           </button>
         </li>
         {pageNumbers.map((page) => (
@@ -34,7 +34,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         ))}
         <li>
           <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages}>
-            <AiOutlineRight />
+            <BsArrowRightShort />
           </button>
         </li>
       </ul>

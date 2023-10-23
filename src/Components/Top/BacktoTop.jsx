@@ -24,7 +24,7 @@ function ScrollToTopButton() {
   }, []);
 
   return (
-    <div className={`fixed right-4 bottom-4 z-20 bg-primary w-fit  p-2 rounded-full ${showButton ? 'block' : 'hidden'}`}>
+    <div className={`fixed right-4 bottom-4 z-20 bg-primary/30 hover:bg-primary  backdrop-blur-md hover:scale-125 duration-150 w-fit  p-2 rounded-full ${showButton ? 'block' : 'hidden'}`}>
       <a href="#top" className="text-5xl text-center text-white" onClick={scrollToTop}>
         <BiSolidArrowToTop />
       </a>

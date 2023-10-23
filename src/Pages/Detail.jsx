@@ -20,6 +20,7 @@ const Detail = () => {
     });
     console.log(movie);
   }, [id]);
+
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(dateString).toLocaleDateString(undefined, options);
@@ -64,7 +65,8 @@ const Detail = () => {
     fetchCharacterData();
   }, [id]);
 
-  // Get Reviews
+  const [bestRating, setBestRating] = useState(0); // Initialize the best rating state
+
   const [reviews, setReviews] = useState([]);
   useEffect(() => {
     const fetchReviewData = async () => {
@@ -75,6 +77,19 @@ const Detail = () => {
         if (response.ok) {
           const data = await response.json();
           setReviews(data.results);
+
+          // Calculate bestRating based on reviews
+          const calculatedBestRating = data.results.reduce(
+            (maxRating, review) => {
+              return review.author_details.rating > maxRating
+                ? review.author_details.rating
+                : maxRating;
+            },
+            0
+          );
+
+          // Update the best rating state
+          setBestRating(calculatedBestRating);
         } else {
           console.error("Failed to fetch review data");
         }
@@ -86,52 +101,72 @@ const Detail = () => {
     fetchReviewData();
   }, [id]);
 
+  useEffect(() => {
+    getDetailMovie(id, (data) => {
+      SetMovie(data);
+    });
+  }, [id]);
+
   return (
     <>
       <Nav />
 
-      <div className="relative">
+      <div className="relative ">
         {Object.keys(movie).length > 0 && (
-          <div className="absolute space-y-2 md:space-y-10 pl-4 md:pl-10 mt-10 md:mt-20 z-10">
+          <div className="absolute space-y-2 md:pt-4 pt-10 md:space-y-10 pl-4 md:pl-10 mt-10 md:mt-20 z-10">
             <h1 className="text-white text-4xl font-bold md:text-6xl">
               {movie.title}
             </h1>
             <div className="flex space-x-40">
-              <div className="w-5 md:w-10 flex">
-                <img src="/assets/icon/Star 1.png" alt="" />
-                <img src="/assets/icon/Star 1.png" alt="" />
-                <img src="/assets/icon/Star 1.png" alt="" />
-                <img src="/assets/icon/Star 1.png" alt="" />
-                <img src="/assets/icon/Star 5.png" alt="" />
+              <div className="flex-row flex">
+                {Array.from({ length: 10 }, (_, index) => (
+                  <img
+                    key={index}
+                    src="/assets/icon/Star 1.png"
+                    alt="star"
+                    className="md:w-10 w-6 md:h-10 h-6 mr-1"
+                    style={{
+                      filter: index < bestRating ? "none" : "grayscale(100%)",
+                    }}
+                  />
+                ))}
               </div>
               <div>
-                <h1 className="text-white  text-lg font-semibold">
-                  {movie.popularity}
+                <h1 className="text-white -ml-24 md:-ml-40  absolute  w-full md:pt-2 text-lg font-semibold">
+                  {/* {reviews.length > 0
+                      ? Math.max(
+                          ...reviews.map(
+                            (review) => review.author_details?.rating
+                          ),
+                          0
+                        )
+                      : "N/A"}{" "} */}
+                  {reviews.length + " Reviews"}
                 </h1>
               </div>
             </div>
 
-            <div className="w-fit ">
-              <h1 className="text-white font-semibold md:text-2xl">
+            <div className="md:w-[1000px] ">
+              <h1 className="text-white  md:text-2xl">
                 {movie.overview}
               </h1>
             </div>
             <div className="md:flex mt-2 space-y-3 md:space-y-0 md:space-x-5">
               <div>
-                <button className="bg-primary md:py-3 p-3 md:px-10 text-white rounded-lg font-bold text-2xl">
+                <button className="bg-primary hover:scale-110 duration-150 md:py-4 p-3 md:px-10 text-white rounded-lg font-bold text-2xl">
                   Watch Trailer
                 </button>
               </div>
               <div>
-                <button className="border-2 border-white py-3 px-10 text-white rounded-lg font-bold text-2xl">
+                <button className="border-2 border-white hover:bg-primary hover:text-white hover:scale-110 duration-150 py-3 px-10 text-white rounded-lg font-bold text-2xl">
                   Add to Watchlist
                 </button>
               </div>
             </div>
           </div>
         )}
-        ;
-        <div className="brightness-50 ">
+        
+        <div className="brightness-[0.5] ">
           <img
             src={"https://image.tmdb.org/t/p/w500/" + movie.backdrop_path}
             className="bg-cover h-[600px] w-full"
@@ -175,16 +210,28 @@ const Detail = () => {
         </div>
         {selectedSubmenu === "overview" && (
           <div>
-            <div className="flex  pl-3 md:pl-16 items-center justify-between">
-              <h1 className="font-bold text-4xl w-60 shadow-sm">Synopsis</h1>
-              <hr className="border border-slate-500 w-full ml-12 mr-16 my-4" />
+            <div className="flex mt-6 pl-3 md:pl-16 items-center justify-between">
+              <div className="w-full">
+                <div className="flex items-center justify-center mt-10">
+                  <h1 className="font-bold text-4xl w-60 shadow-sm">
+                    Synopsis
+                  </h1>{" "}
+                  <div className="bg-gray2 w-full h-1 rounded-lg ml-16 mr-10"></div>
+                </div>
+              </div>
             </div>
-            <div className=" pl-3 md:pl-16 text-2xl w-fit    mt-2">
+            <div className=" pl-3 md:pl-16 text-2xl w-fit mt-2">
               <h1>{movie.overview}</h1>
             </div>
             <div className="flex  pl-3 md:pl-16 items-center justify-between">
-              <h1 className="font-bold text-4xl w-72 shadow-sm">Movie Info</h1>
-              <hr className="border border-slate-500 w-full ml-5 mr-16 my-4" />
+              <div className="w-full">
+                <div className="flex items-center justify-center mt-10">
+                  <h1 className="font-bold text-4xl w-60 shadow-sm">
+                    Movie Info
+                  </h1>{" "}
+                  <div className="bg-gray2 w-full h-1 rounded-lg ml-16 mr-10"></div>
+                </div>
+              </div>
             </div>
             <div className=" pl-3 md:pl-16 text-2xl w-[1400px] mt-10">
               <ul>
@@ -205,12 +252,12 @@ const Detail = () => {
           </div>
         )}
         {selectedSubmenu === "characters" && (
-          <div className="md:px-24 ml-4 mt-10">
+          <div className="md:px-24 md:ml-4 mt-10">
             <ul className="grid grid-cols-3 md:grid-cols-8 mx-auto rounded-lg">
               {characters.map((character) => (
                 <li
                   key={character.id}
-                  className="m-2 hover:scale-110 duration-100 hover:bg-secondary text-center items-center justify-center border-white rounded-xl text-white  bg-red-500 p-2"
+                  className="m-2 hover:scale-110 duration-100 hover:bg-secondary text-center items-center justify-center border-white rounded-xl text-white bg-gradient-to-r from-primary to-secondary shadow-sm p-2"
                 >
                   <div>
                     <img
@@ -219,7 +266,7 @@ const Detail = () => {
                         character.profile_path
                       }
                       alt={character.name}
-                      className="w-20 h-20 mx-auto"
+                      className="w-20 h-20 mx-auto rounded-lg"
                     />
                   </div>
                   <p>{character.name}</p>

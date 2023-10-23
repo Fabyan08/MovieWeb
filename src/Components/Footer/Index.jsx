@@ -2,8 +2,8 @@ const Footer = () => {
   return (
     <>
       <section className="py-10 bg-black sm:pt-16 mt-10 lg:pt-24">
-        <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
-          <div className="md:grid grid-cols-2 md:grid-cols-4 lg:grid-cols-12 gap-y-12 gap-x-2 xl:gap-x-40">
+        <div className="mx-auto  max-w-7xl">
+          <div className="md:grid grid-cols-2 md:grid-cols-20 lg:grid-cols-12 gap-y-12 gap-x-2 xl:gap-x-40">
             <div className="col-span-2 md:col-span-4 xl:pr-8">
               <a href="/">
                 <img className="w-32" src="/assets/images/logo.png" alt="" />
