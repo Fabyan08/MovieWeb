@@ -119,6 +119,10 @@ const MoviePage = () => {
         onGenreSelect={handleGenreSelect}
         selectedGenreId={selectedGenreId}
       />
+
+
+
+      
       <div className="mt-10">
         <ul className="grid grid-cols-2 md:grid-cols-5 gap-3 px-10">
           {movie.results &&
